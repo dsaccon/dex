@@ -92,7 +92,6 @@ contract Dex {
 	}
 
 	/// @notice Send ETH in a transaction, func with transfer Token from sender according to pool balance
-	/// @dev WIP, still currently in development
 	function deposit()
 		public payable returns (uint256)
 	{
@@ -107,7 +106,6 @@ contract Dex {
 	}
 
 	/// @notice Withdraws 'amount' of ETH and Token (according to pool balance) to sender's account
-	/// @dev WIP, still currently in development
 	/// @dev 'amount' in wei
 	function withdraw(uint256 amount)
 		public returns (uint256, uint256)
@@ -116,6 +114,9 @@ contract Dex {
 		uint256 token_reserve = token.balanceOf(address(this));
 		uint256 eth_amount = _amount.mul(address(this).balance) / totalLiquidity;
 		uint256 token_amount = _amount.mul(token_reserve) / totalLiquidity;
+		require(address(this).balance > eth_amount, "Withdrawal amount exceeds available dex ETH liquidity");
+		require(token.balanceOf(address(this)) > token_amount, "Withdrawal amount exceeds available dex Token liquidity");
+		require(liquidity[msg.sender] > eth_amount, "Withdrawal amount exceeds account ETH balance");
 		liquidity[msg.sender] = liquidity[msg.sender].sub(eth_amount);
 		totalLiquidity = totalLiquidity.sub(eth_amount);
 		msg.sender.transfer(eth_amount);
