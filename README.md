@@ -6,7 +6,7 @@ This pricing scheme, while elegant, has the issue of being subject to extreme sl
 The exchange allows account holders to swap ETH<->Token, and also to provide liquidity to the Dex using ETH & Tokens from their wallet 
 
 The Dex allows any account to exchange ETH with Token (ERC20 contract created for this demo) and Token with ETH
-The Dex allows any account to deposit from their wallet an amount of ETH and Token to provide liquidity to the exchange. Relative ETH and Token 
+The Dex allows any account to deposit from their wallet an amount of ETH and Token to provide liquidity to the exchange
 The Dex allows any account to withdraw an amount of their ETH and Token liquidity back to their wallet
 
 ## Prerequisites
