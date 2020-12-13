@@ -2,32 +2,16 @@ let catchRevert = require("./exceptionsHelpers.js").catchRevert
 var Dex = artifacts.require("Dex");
 var Token = artifacts.require("Token");
 
-function sleep(milliseconds) {
-  const date = Date.now();
-  let currentDate = null;
-  do {
-    currentDate = Date.now();
-  } while (currentDate - date < milliseconds);
-}
-
 contract("Dex", accounts => {
 
   beforeEach(async () => {
     await Token.deployed();
     tokenInstance = await Token.new("token", "TKN", 18, 1000000, {from: accounts[0]});
     dexInstance = await Dex.new(tokenInstance.address);
-//    await dexInstance.init.call(50, {value: 50*10**18})
   });
-
-//  const dexInstance = await Dex.deployed()
-
-//  var tokenInstance = await Token.new("token", "TKN", 18, 1000000)
-//  var dexInstance = await Dex.new(tokenInstance.address)
 
   it("should return 0", async () => {
 
-//    const tokenInstance = await Token.deployed()
-//    dexInstance = await Dex.new(Token.address)
     const ethLiqBal = await dexInstance.getEthLiquidity.call();
     const tokenLiqBal = await dexInstance.getTokenLiquidity.call();
     assert.equal(ethLiqBal, 0, "The value was not 0");
