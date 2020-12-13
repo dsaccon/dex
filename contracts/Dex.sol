@@ -57,13 +57,14 @@ contract Dex {
 		return _tknLiquidity;
 	}
 
+	/// @notice input_ETH in wei
 	function getPriceEthToToken(uint256 input_ETH)
 		public view returns (uint256)
 	{
 		return price(input_ETH, address(this).balance, token.balanceOf(address(this)));
 	}
 
-	/// @notice Send ETH amount in transaction to this function
+	/// @notice Send ETH amount (in wei) in transaction to this function
 	function ethToToken()
 		public payable returns (uint256)
 	{
