@@ -3,9 +3,6 @@ import { newContextComponents } from "@drizzle/react-components";
 
 const { AccountData, ContractData, ContractForm } = newContextComponents;
 
-//          methodArgs={[drizzleState.accounts[0]], {from: drizzleState.accounts[0]}}
-//          sendArgs={{value: 30*10**18, from: drizzleState.accounts[0]}}
-
 export default ({ drizzle, drizzleState }) => {
   // destructure drizzle and drizzleState from props
 
@@ -30,16 +27,15 @@ export default ({ drizzle, drizzleState }) => {
           drizzle={drizzle}
           drizzleState={drizzleState}
           contract="Dex"
-          method="getLiquidity"
+          method="getEthLiquidity"
         />
       </p>
       <p>Liquidity (Token):&nbsp;
         <ContractData
           drizzle={drizzle}
           drizzleState={drizzleState}
-          contract="Token"
-          method="balanceOf"
-          methodArgs={[drizzle.contracts.Dex.address]}
+          contract="Dex"
+          method="getTokenLiquidity"
         />
       </p>
       <hr />
@@ -99,7 +95,7 @@ export default ({ drizzle, drizzleState }) => {
       <hr />
       <p>Check Token->ETH rate</p>
       <div className="form">
-        <input id="f-amount-tTtER" type="text" onChange={(e)=>setTmpTknToEthRateAmt(e.target.value)} placeholder="ETH amount" />
+        <input id="f-amount-tTtER" type="text" onChange={(e)=>setTmpTknToEthRateAmt(e.target.value)} placeholder="Token amount" />
         <button id="f-button-TtER" onClick={()=>setTknToEthRateAmt(tmpTknToEthRateAmt)}>Submit</button>
       </div>
         { tknToEthRateAmt ?
@@ -127,7 +123,7 @@ export default ({ drizzle, drizzleState }) => {
       <hr />
       <p>Invest Liquidity</p>
       <div className="form">
-        <input id="f-amount-invest" type="text" onChange={(e)=>setTmpDepAmt(e.target.value)} placeholder="enter amount" />
+        <input id="f-amount-invest" type="text" onChange={(e)=>setTmpDepAmt(e.target.value)} placeholder="ETH amount" />
         <button id="f-button-invest" onClick={()=>setDepAmt(tmpDepAmt)}>Submit</button>
       </div>
         { depAmt ?
@@ -146,7 +142,7 @@ export default ({ drizzle, drizzleState }) => {
         drizzleState={drizzleState}
         contract="Dex"
         method="withdraw"
-        labels={["Amount (ETH)"]}
+        labels={["ETH amount"]}
       />        
     </div>
   );
