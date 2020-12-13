@@ -16,7 +16,6 @@ contract Dex {
 	uint256 public totalLiquidity;
 	mapping (address => uint256) public liquidity;
 
-
 	constructor(address token_addr)
 		public
 	{
