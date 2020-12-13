@@ -17,20 +17,6 @@ contract Dex {
 	mapping (address => uint256) public liquidity;
 
 
-	function getEthLiquidity()
-		public view returns (uint256)
-	{
-		uint256 _ethLiquidity = address(this).balance;
-		return _ethLiquidity;
-	}
-
-	function getTokenLiquidity()
-		public view returns (uint256)
-	{
-		uint256 _tknLiquidity = token.balanceOf(address(this));
-		return _tknLiquidity;
-	}
-
 	constructor(address token_addr)
 		public
 	{
@@ -56,6 +42,20 @@ contract Dex {
 		uint256 numerator = input_amount_with_fee.mul(output_reserve);
 		uint256 denominator = input_reserve.mul(1000).add(input_amount_with_fee);
 		return numerator / denominator;
+	}
+
+	function getEthLiquidity()
+		public view returns (uint256)
+	{
+		uint256 _ethLiquidity = address(this).balance;
+		return _ethLiquidity;
+	}
+
+	function getTokenLiquidity()
+		public view returns (uint256)
+	{
+		uint256 _tknLiquidity = token.balanceOf(address(this));
+		return _tknLiquidity;
 	}
 
 	function getPriceEthToToken(uint256 input_ETH)
