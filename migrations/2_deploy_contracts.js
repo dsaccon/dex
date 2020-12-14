@@ -7,6 +7,6 @@ module.exports = async function (deployer) {
 		.then(() => deployer.deploy(Dex, Token.address))
 		.then(() => Dex.deployed())
 		.then((Dex_instance) => {
-			Dex_instance.init(50, {value: 50*10**18})
+			Dex_instance.init(10, {value: 10*10**18})
 		});
 };
