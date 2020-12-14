@@ -16,6 +16,12 @@ contract Dex {
 	uint256 public totalLiquidity;
 	mapping (address => uint256) public liquidity;
 
+	// Events
+	event ethToTokenEvent(address swapper, uint256 ethVal, uint256 tokenVal);
+	event tokenToEthEvent(address swapper, uint256 ethVal, uint256 tokenVal);
+	event depositEvent(address depositor, uint256 ethVal, uint256 tokenVal);
+	event withdrawEvent(address withdrawer, uint256 ethVal, uint256 tokenVal);
+
 	constructor(address token_addr)
 		public
 	{
@@ -68,11 +74,12 @@ contract Dex {
 	function ethToToken()
 		public payable returns (uint256)
 	{
-  		uint256 token_reserve = token.balanceOf(address(this));
-  		uint256 tokens_bought = price(msg.value, address(this).balance.sub(msg.value), token_reserve);
-  		require(token.transfer(msg.sender, tokens_bought));
-  		totalLiquidity = address(this).balance;
-  		return tokens_bought;
+		uint256 token_reserve = token.balanceOf(address(this));
+		uint256 tokens_bought = price(msg.value, address(this).balance.sub(msg.value), token_reserve);
+		require(token.transfer(msg.sender, tokens_bought));
+		totalLiquidity = address(this).balance;
+		emit ethToTokenEvent(msg.sender, msg.value, tokens_bought);
+		return tokens_bought;
 	}
 
 	function getPriceTokenToEth(uint256 input_Token)
@@ -84,11 +91,12 @@ contract Dex {
 	function tokenToEth(uint256 tokens)
 		public returns (uint256)
 	{
-  		uint256 token_reserve = token.balanceOf(address(this));
-  		uint256 eth_bought = price(tokens, token_reserve, address(this).balance);
-  		msg.sender.transfer(eth_bought);
-  		require(token.transferFrom(msg.sender, address(this), tokens));
-  		return eth_bought;
+		uint256 token_reserve = token.balanceOf(address(this));
+		uint256 eth_bought = price(tokens, token_reserve, address(this).balance);
+		msg.sender.transfer(eth_bought);
+		require(token.transferFrom(msg.sender, address(this), tokens));
+		emit tokenToEthEvent(msg.sender, eth_bought, tokens);
+		return eth_bought;
 	}
 
 	/// @notice Send ETH in a transaction, func with transfer Token from sender according to pool balance
@@ -102,6 +110,7 @@ contract Dex {
 		liquidity[msg.sender] = liquidity[msg.sender].add(liquidity_minted);
 		totalLiquidity = totalLiquidity.add(liquidity_minted);
 		require(token.transferFrom(msg.sender, address(this), token_amount));
+		emit depositEvent(msg.sender, msg.value, token_amount);
 		return liquidity_minted;
 	}
 
@@ -121,6 +130,7 @@ contract Dex {
 		totalLiquidity = totalLiquidity.sub(eth_amount);
 		msg.sender.transfer(eth_amount);
 		require(token.transfer(msg.sender, token_amount));
+		emit withdrawEvent(msg.sender, eth_amount, token_amount);
 		return (eth_amount, token_amount);
 	}
 
