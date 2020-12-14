@@ -1,3 +1,7 @@
+# AMM DEX
+
+<img alt="Image of Dex" src="img.png">
+
 This is an automated market-making (AMM) decentralized exchange (DEX) modeled after Uniswap
 
 The main characteristic of this type of exchange is the simple pricing function between both sides of the market to allow for constant liquidity
