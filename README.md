@@ -13,6 +13,8 @@ The Dex allows any account to exchange ETH with Token (ERC20 contract created fo
 The Dex allows any account to deposit from their wallet an amount of ETH and Token to provide liquidity to the exchange
 The Dex allows any account to withdraw an amount of their ETH and Token liquidity back to their wallet
 
+Demo: bit.ly/amm_dex
+
 ## Prerequisites
 
 - [Node.js](https://nodejs.org)
